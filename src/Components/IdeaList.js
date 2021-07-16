@@ -16,7 +16,7 @@ export default class IdeaList extends React.Component {
   render() {
     return (
       <ul>
-      { this.state.ideas.map( idea => <li>{ idea.title }</li> ) }
+        { this.state.ideas.map( idea => <li>{ idea.title }</li> ) }
       </ul>
     )
   }
