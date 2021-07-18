@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Table } from 'reactstrap';
+import Rating from '@material-ui/lab/Rating'
 
 const API_URL = `http://localhost:3000`;
 
@@ -25,6 +26,7 @@ export default class IdeaList extends React.Component {
             <th>ID</th>
             <th>Title</th>
             <th>Problem</th>
+            <th>Rating</th>
           </tr>
         </thead>
         <tbody>
@@ -33,6 +35,7 @@ export default class IdeaList extends React.Component {
               <th scope="row">{ idea.id }</th>
               <td>{ idea.title }</td>
               <td>{ idea.problem }</td>
+              <Rating name="simple-controlled"/>
             </tr>
           ) }
         </tbody>
