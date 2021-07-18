@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import './IdeaList.css';
 import { Table } from 'reactstrap';
 import Rating from '@material-ui/lab/Rating'
 
@@ -20,12 +21,14 @@ export default class IdeaList extends React.Component {
   render() {
 
     return (
-      <Table striped>
+      <Table bordered hover>
         <thead>
           <tr>
             <th>ID</th>
             <th>Title</th>
             <th>Problem</th>
+            <th>Region</th>
+            <th>Field</th>
             <th>Rating</th>
           </tr>
         </thead>
@@ -35,7 +38,9 @@ export default class IdeaList extends React.Component {
               <th scope="row">{ idea.id }</th>
               <td>{ idea.title }</td>
               <td>{ idea.problem }</td>
-              <Rating name="simple-controlled"/>
+              <td>{ idea.region }</td>
+              <td>{ idea.field }</td>
+              <Rating name="simple-controlled" value={ idea.rating }/>
             </tr>
           ) }
         </tbody>
