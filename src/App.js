@@ -6,10 +6,9 @@ import IdeaList from './Components/IdeaList'
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+      <body>
         <IdeaList />
-      </header>
+      </body>
     </div>
   );
 }
