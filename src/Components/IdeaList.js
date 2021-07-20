@@ -21,30 +21,32 @@ export default class IdeaList extends React.Component {
   render() {
 
     return (
-      <Table bordered hover>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Problem</th>
-            <th>Region</th>
-            <th>Field</th>
-            <th>Rating</th>
-          </tr>
-        </thead>
-        <tbody>
-          { this.state.ideas.map( idea =>
+      <div class="Table_container">
+        <Table bordered hover>
+          <thead>
             <tr>
-              <th scope="row">{ idea.id }</th>
-              <td>{ idea.title }</td>
-              <td>{ idea.problem }</td>
-              <td>{ idea.region }</td>
-              <td>{ idea.field }</td>
-              <Rating name="simple-controlled" value={ idea.rating }/>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Problem</th>
+              <th>Region</th>
+              <th>Field</th>
+              <th>Rating</th>
             </tr>
-          ) }
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            { this.state.ideas.map( idea =>
+              <tr>
+                <th scope="row">{ idea.id }</th>
+                <td>{ idea.title }</td>
+                <td>{ idea.problem }</td>
+                <td>{ idea.region }</td>
+                <td>{ idea.field }</td>
+                <Rating name="simple-controlled" value={ idea.rating }/>
+              </tr>
+            ) }
+          </tbody>
+        </Table>
+      </div>
     )
   }
 }
