@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import LogIn from '../Components/log_in';
-import SignUp from '../Components/sign_up'
-import IdeaList from '../Components/IdeaList'
+import LogIn from '../Components/Authorization/log_in';
+import SignUp from '../Components/Authorization/sign_up'
+import IdeaList from '../Components/IdeaList/IdeaList'
 import { BrowserRouter as Router, Route } from "react-router-dom"
 
 class Routers extends Component {
