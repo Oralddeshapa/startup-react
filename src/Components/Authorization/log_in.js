@@ -16,6 +16,12 @@ import Copyright from './Copyright.js'
 import useStyles from './Authorization.js'
 
 export default function LogIn() {
+
+  let state = {
+    email: '',
+    password: '',
+  }
+
   const classes = useStyles();
 
   return (
@@ -62,7 +68,7 @@ export default function LogIn() {
             color="primary"
             className={classes.submit}
           >
-            Sign In
+            Log In
           </Button>
           <Grid container>
             <Grid item xs>

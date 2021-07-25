@@ -14,9 +14,44 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Copyright from './Copyright.js'
 import useStyles from './Authorization.js'
+import axios from 'axios';
+
+const API_URL = `http://localhost:3000`;
 
 export default function SignUp() {
+
   const classes = useStyles();
+
+  let state = {
+    name: '',
+    email: '',
+    password: '',
+  }
+
+  let handleNameChange = (e) => {
+    state.name = e.target.value;
+  }
+
+  let handleEmailChange = (e) => {
+    state.email = e.target.value;
+  }
+
+  let handlePassChange = (e) => {
+    state.password = e.target.value;
+  }
+
+  let handleSubmit = (e) => {
+    axios.post(API_URL + `/api/v1/ideas`, {
+      title: state.name,
+      problem: state.email,
+    })
+    .then(response => {
+      console.log(response);
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -29,67 +64,48 @@ export default function SignUp() {
           Sign up
         </Typography>
         <form className={classes.form} noValidate>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
-              />
-            </Grid>
-          </Grid>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="name"
+            label="Name"
+            name="name"
+            autoFocus
+            onChange={handleNameChange}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoFocus
+            onChange={handleEmailChange}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            onChange={handlePassChange}
+          />
           <Button
-            type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
-          >
+            onClick={(e) => {
+                handleSubmit(e)
+            }}>
             Sign Up
           </Button>
           <Grid container justifyContent="flex-end">

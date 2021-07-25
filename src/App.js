@@ -9,11 +9,8 @@ function App() {
   return (
 
     <div className="App">
-      <body>
-        <Header/>
-        <Routers/>
-
-      </body>
+      <Header/>
+      <Routers/>
     </div>
   );
 }
