@@ -41,9 +41,10 @@ export default function SignUp() {
   }
 
   let handleSubmit = (e) => {
-    axios.post(API_URL + `/api/v1/ideas`, {
-      title: state.name,
-      problem: state.email,
+    axios.post(API_URL + `/api/v1/users`, {
+      username: state.name,
+      email: state.email,
+      password: state.password
     })
     .then(response => {
       console.log(response);
