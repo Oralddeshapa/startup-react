@@ -14,12 +14,38 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Copyright from './Copyright.js'
 import useStyles from './Authorization.js'
+import axios from 'axios';
+
+const API_URL = `http://localhost:3000`;
 
 export default function LogIn() {
 
   let state = {
     email: '',
     password: '',
+  }
+
+  let handleEmailChange = (e) => {
+    state.email = e.target.value;
+  }
+
+  let handlePassChange = (e) => {
+    state.password = e.target.value;
+  }
+
+  let handleSubmit = (e) => {
+    axios.post(API_URL + `/api/v1/authorize`, {
+      email: state.email,
+      password: state.password
+    })
+    .then(response => {
+      if (response.data.correct) {
+        localStorage.setItem('token', response.data.token)
+      }
+    })
+    .catch(error => {
+      alert(error)
+    })
   }
 
   const classes = useStyles();
@@ -45,6 +71,7 @@ export default function LogIn() {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={handleEmailChange}
           />
           <TextField
             variant="outlined"
@@ -56,17 +83,19 @@ export default function LogIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={handlePassChange}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
           <Button
-            type="submit"
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
+            onClick={(e) => {
+                handleSubmit(e)
+            }}
           >
             Log In
           </Button>

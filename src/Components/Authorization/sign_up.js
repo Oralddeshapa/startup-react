@@ -18,6 +18,8 @@ import axios from 'axios';
 
 const API_URL = `http://localhost:3000`;
 
+const RE = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
 export default function SignUp() {
 
   const classes = useStyles();
@@ -41,17 +43,24 @@ export default function SignUp() {
   }
 
   let handleSubmit = (e) => {
-    axios.post(API_URL + `/api/v1/users`, {
-      username: state.name,
-      email: state.email,
-      password: state.password
-    })
-    .then(response => {
-      console.log(response);
-    })
-    .catch(error => {
-      console.log(error)
-    })
+    if ( RE.test(state.email) ) {
+      axios.post(API_URL + `/api/v1/users`, {
+        username: state.name,
+        email: state.email,
+        password: state.password
+      })
+      .then(response => {
+        console.log(response.data)
+        alert(response.data["msg"])
+      })
+      .catch(error => {
+        alert(error)
+      })
+    }
+    else {
+      alert("Pls enter correct email")
+    }
+
   }
 
   return (
