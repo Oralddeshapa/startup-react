@@ -16,8 +16,6 @@ import Copyright from './Copyright.js'
 import useStyles from './Authorization.js'
 import axios from 'axios';
 
-const API_URL = `http://localhost:3000`;
-
 export default function LogIn() {
 
   let state = {
@@ -34,7 +32,7 @@ export default function LogIn() {
   }
 
   let handleSubmit = (e) => {
-    axios.post(API_URL + `/api/v1/authorize`, {
+    axios.post(`${process.env.REACT_APP_API_URL}/api/v1/authorize`, {
       email: state.email,
       password: state.password
     })
@@ -94,7 +92,7 @@ export default function LogIn() {
             variant="contained"
             color="primary"
             onClick={(e) => {
-                handleSubmit(e)
+            handleSubmit(e)
             }}
           >
             Log In

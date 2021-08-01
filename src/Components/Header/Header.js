@@ -33,6 +33,6 @@ export default class Header extends React.Component {
           </Collapse>
         </Navbar>
       </div>
-  );
+    );
   }
 }

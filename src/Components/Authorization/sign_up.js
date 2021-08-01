@@ -16,9 +16,7 @@ import Copyright from './Copyright.js'
 import useStyles from './Authorization.js'
 import axios from 'axios';
 
-const API_URL = `http://localhost:3000`;
-
-const RE = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
 export default function SignUp() {
 
@@ -43,8 +41,8 @@ export default function SignUp() {
   }
 
   let handleSubmit = (e) => {
-    if ( RE.test(state.email) ) {
-      axios.post(API_URL + `/api/v1/users`, {
+    if ( EMAIL_REGEX.test(state.email) ) {
+      axios.post(`${process.env.REACT_APP_API_URL}/api/v1/users`, {
         username: state.name,
         email: state.email,
         password: state.password
@@ -114,7 +112,7 @@ export default function SignUp() {
             color="primary"
             className={classes.submit}
             onClick={(e) => {
-                handleSubmit(e)
+            handleSubmit(e)
             }}>
             Sign Up
           </Button>

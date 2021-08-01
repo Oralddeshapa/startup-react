@@ -4,15 +4,13 @@ import './IdeaList.css';
 import { Table } from 'reactstrap';
 import Rating from '@material-ui/lab/Rating'
 
-const API_URL = `http://localhost:3000`;
-
 export default class IdeaList extends React.Component {
   state = {
     ideas: []
   }
 
   componentDidMount() {
-    axios.get(API_URL + `/api/v1/ideas`)
+    axios.get(`${process.env.REACT_APP_API_URL}/api/v1/ideas`)
       .then(res => {
         this.setState({ ideas: res.data })
       })
