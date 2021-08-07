@@ -1,11 +1,7 @@
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -45,11 +41,18 @@ export default function SignUp() {
       axios.post(`${process.env.REACT_APP_API_URL}/api/v1/users`, {
         username: state.name,
         email: state.email,
-        password: state.password
+        password: state.password,
+        token: localStorage.getItem('token')
       })
       .then(response => {
-        console.log(response.data)
-        alert(response.data["msg"])
+        if (response.data["error_code"]){
+          console.log(response.data)
+          alert("ERROR" + response.data["msg"])
+        }
+        else {
+          console.log(response.data)
+          alert(response.data["msg"])
+        }
       })
       .catch(error => {
         alert(error)
@@ -63,7 +66,7 @@ export default function SignUp() {
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
+
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -116,13 +119,6 @@ export default function SignUp() {
             }}>
             Sign Up
           </Button>
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Link href="#" variant="body2">
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
         </form>
       </div>
       <Box mt={5}>

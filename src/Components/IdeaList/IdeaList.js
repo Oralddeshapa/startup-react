@@ -10,10 +10,17 @@ export default class IdeaList extends React.Component {
   }
 
   componentDidMount() {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/v1/ideas`)
-      .then(res => {
-        this.setState({ ideas: res.data })
-      })
+    axios.get(`${process.env.REACT_APP_API_URL}/api/v1/ideas`,
+    { params: {
+        token: localStorage.getItem('token')
+      }
+    })
+     .then(res => {
+       this.setState({ ideas: res.data })
+     })
+     .catch(error => {
+       alert(error)
+     })
   }
 
   render() {

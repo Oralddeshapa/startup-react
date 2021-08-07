@@ -1,7 +1,6 @@
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -34,7 +33,8 @@ export default function LogIn() {
   let handleSubmit = (e) => {
     axios.post(`${process.env.REACT_APP_API_URL}/api/v1/authorize`, {
       email: state.email,
-      password: state.password
+      password: state.password,
+      token: localStorage.getItem('token')
     })
     .then(response => {
       if (response.data.correct) {
@@ -50,7 +50,6 @@ export default function LogIn() {
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -104,7 +103,7 @@ export default function LogIn() {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/sign_up" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

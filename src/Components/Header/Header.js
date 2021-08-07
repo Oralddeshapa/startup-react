@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Collapse,
   Navbar,
-  NavbarToggler,
   NavbarBrand,
   Nav,
   NavItem,
@@ -10,29 +9,33 @@ import {
 } from 'reactstrap';
 import './Header.css';
 
-export default class Header extends React.Component {
-  state = {
+export default function Header(status) {
+
+  let state = {
     isOpen: false
   }
 
-  render() {
-
-    return (
-      <div className="NavbarBrand">
-        <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">StartUP</NavbarBrand>
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="mr-auto" navbar>
-              <NavItem>
-                <NavLink href="/log_in">Log In</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="/sign_up">Sign Up</NavLink>
-              </NavItem>
-            </Nav>
-          </Collapse>
-        </Navbar>
-      </div>
-    );
-  }
+  return (
+    <div className="NavbarBrand">
+      <Navbar color="light" light expand="md">
+        <NavbarBrand href="/">StartUP</NavbarBrand>
+        <Collapse isOpen={state.isOpen} navbar>
+          <Nav className="mr-auto" navbar>
+            <NavItem>
+              <NavLink href="/log_in"
+              style={{visibility: status.isAuthorised ? 'hidden' : 'visible' }} >
+                Log In
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="/sign_up"
+              style={{visibility: status.isAuthorised ? 'hidden' : 'visible' }} >
+                Sign Up
+              </NavLink>
+            </NavItem>
+          </Nav>
+        </Collapse>
+      </Navbar>
+    </div>
+  );
 }
