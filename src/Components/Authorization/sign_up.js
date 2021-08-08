@@ -12,6 +12,12 @@ import Copyright from './Copyright.js'
 import useStyles from './Authorization.js'
 import axios from 'axios';
 
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
 export default function SignUp() {
@@ -22,6 +28,7 @@ export default function SignUp() {
     name: '',
     email: '',
     password: '',
+    role: 'Creator',
   }
 
   let handleNameChange = (e) => {
@@ -36,12 +43,17 @@ export default function SignUp() {
     state.password = e.target.value;
   }
 
+  const handleRoleChange = (e) => {
+    state.role = e.target.value;
+  };
+
   let handleSubmit = (e) => {
     if ( EMAIL_REGEX.test(state.email) ) {
       axios.post(`${process.env.REACT_APP_API_URL}/api/v1/users`, {
         username: state.name,
         email: state.email,
         password: state.password,
+        role: state.role.toLowerCase(),
         token: localStorage.getItem('token')
       })
       .then(response => {
@@ -109,6 +121,25 @@ export default function SignUp() {
             autoComplete="current-password"
             onChange={handlePassChange}
           />
+
+          <RadioGroup
+           row aria-label="position"
+           name="position"
+           defaultValue="Creator"
+           onChange={handleRoleChange}
+           >
+            <FormControlLabel
+              value="Creator"
+              control={<Radio color="primary" />}
+              label="Creator"
+            />
+            <FormControlLabel
+              value="Investor"
+              control={<Radio color="primary" />}
+              label="Investor"
+            />
+          </RadioGroup>
+
           <Button
             fullWidth
             variant="contained"

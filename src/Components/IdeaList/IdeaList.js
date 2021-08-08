@@ -31,6 +31,7 @@ export default class IdeaList extends React.Component {
           <thead>
             <tr>
               <th>ID</th>
+              <th>Author</th>
               <th>Title</th>
               <th>Problem</th>
               <th>Region</th>
@@ -42,6 +43,7 @@ export default class IdeaList extends React.Component {
             { this.state.ideas.map( idea =>
               <tr key={ idea.id }>
                 <th scope="row">{ idea.id }</th>
+                <td>{ idea.creator }</td>
                 <td>{ idea.title }</td>
                 <td>{ idea.problem }</td>
                 <td>{ idea.region }</td>
