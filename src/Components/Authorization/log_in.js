@@ -37,11 +37,10 @@ export default function LogIn() {
       token: localStorage.getItem('token')
     })
     .then(response => {
-      if (response.data.correct) {
-        localStorage.setItem('token', response.data.token)
-      }
+      alert('You successfully authorized')
     })
     .catch(error => {
+      localStorage.setItem('token', null)
       alert(error)
     })
   }

@@ -57,14 +57,7 @@ export default function SignUp() {
         token: localStorage.getItem('token')
       })
       .then(response => {
-        if (response.data["error_code"]){
-          console.log(response.data)
-          alert("ERROR" + response.data["msg"])
-        }
-        else {
-          console.log(response.data)
-          alert(response.data["msg"])
-        }
+        alert("Account was successfully created")
       })
       .catch(error => {
         alert(error)
