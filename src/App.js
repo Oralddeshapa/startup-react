@@ -13,11 +13,11 @@ function App() {
     isAuthorised: false,
     isCretor: false,
   }
-  
+
   return (
 
     <div className="App">
-      <Header data={state}/>
+      <Header/>
       <Routers/>
     </div>
   );
