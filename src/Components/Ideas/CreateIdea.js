@@ -15,7 +15,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import useStyles from './Form.js'
+import useStyles from './CreateIdeaStyles.js'
 
 export default function CreateIdea() {
 
@@ -26,12 +26,10 @@ export default function CreateIdea() {
     problem: '',
     field: '',
     region: '',
-    regions: [],
-    fields: [],
   });
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/v1/get_fields`,
+    axios.get(`${process.env.REACT_APP_API_URL}/get_fields`,
     { params: {
         token: localStorage.getItem('token')
       }

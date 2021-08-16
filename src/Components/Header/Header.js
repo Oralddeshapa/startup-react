@@ -20,12 +20,14 @@ export default function Header() {
           <Nav className="mr-auto" navbar>
             <NavItem>
               <NavLink href="/log_in"
+                style={{visibility: !localStorage.getItem('token') ? 'visible' : 'hidden' }}
               >
                 Log In
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="/sign_up"
+                style={{visibility: !localStorage.getItem('token') ? 'visible' : 'hidden' }}
               >
                 Sign Up
               </NavLink>
