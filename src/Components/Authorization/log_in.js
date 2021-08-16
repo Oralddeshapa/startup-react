@@ -37,9 +37,9 @@ export default function LogIn() {
       token: localStorage.getItem('token')
     })
     .then(response => {
-      if (response.data.correct) {
-        localStorage.setItem('token', response.data.token)
-      }
+      localStorage.setItem('token', response.data["token"])
+      localStorage.setItem('username', response.data["username"])
+      alert('You successfully authorized')
     })
     .catch(error => {
       alert(error)

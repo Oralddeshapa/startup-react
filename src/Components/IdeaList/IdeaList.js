@@ -10,6 +10,7 @@ export default class IdeaList extends React.Component {
   }
 
   componentDidMount() {
+    console.log(process)
     axios.get(`${process.env.REACT_APP_API_URL}/api/v1/ideas`,
     { params: {
         token: localStorage.getItem('token')
