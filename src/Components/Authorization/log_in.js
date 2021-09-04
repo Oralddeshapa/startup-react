@@ -34,7 +34,7 @@ export default function LogIn() {
     axios.post(`${process.env.REACT_APP_API_URL}/authorize`, {
       email: state.email,
       password: state.password,
-      token: localStorage.getItem('token')
+      token: localStorage.getItem('token') //do u even need it ?
     })
     .then(response => {
       localStorage.setItem('token', response.data["token"])

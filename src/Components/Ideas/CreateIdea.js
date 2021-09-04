@@ -53,7 +53,7 @@ export default function CreateIdea() {
 
   const handleSubmit = (e) => {
     if (state.title && state.problem && state.region && state.field) {
-      axios.post(`${process.env.REACT_APP_API_URL}/api/v1/ideas#create`, {
+      axios.post(`${process.env.REACT_APP_API_URL}/ideas#create`, {
         title: state.title,
         problem: state.problem,
         region: state.region,

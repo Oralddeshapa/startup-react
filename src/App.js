@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import Routers from './Routers/Router';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import Header from './Components/Header/Header'
 

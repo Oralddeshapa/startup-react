@@ -12,6 +12,11 @@ import './Header.css';
 
 export default function Header() {
 
+  let logout = (e) => {
+    localStorage.removeItem('token');
+    window.location.reload(false)
+  }
+
   return (
     <div className="NavbarBrand">
       <Navbar color="light" light expand="md">
@@ -44,6 +49,14 @@ export default function Header() {
                 style={{visibility: localStorage.getItem('token') ? 'visible' : 'hidden' }}
               >
                 { localStorage.getItem('username').toUpperCase() }
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                onClick = {
+                  () => logout()
+                }>
+                Log out
               </NavLink>
             </NavItem>
           </Nav>
