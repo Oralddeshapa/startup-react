@@ -31,7 +31,7 @@ export default function LogIn() {
   }
 
   let handleSubmit = (e) => {
-    axios.post(`${process.env.REACT_APP_API_URL}/api/v1/authorize`, {
+    axios.post(`${process.env.REACT_APP_API_URL}/authorize`, {
       email: state.email,
       password: state.password,
       token: localStorage.getItem('token')

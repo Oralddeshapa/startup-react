@@ -3,7 +3,6 @@ import './App.css';
 import Routers from './Routers/Router';
 import { useEffect } from 'react';
 
-import IdeaList from './Components/IdeaList/IdeaList'
 import Header from './Components/Header/Header'
 
 function App() {

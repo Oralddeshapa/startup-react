@@ -49,7 +49,7 @@ export default function SignUp() {
 
   let handleSubmit = (e) => {
     if ( EMAIL_REGEX.test(state.email) ) {
-      axios.post(`${process.env.REACT_APP_API_URL}/api/v1/users`, {
+      axios.post(`${process.env.REACT_APP_API_URL}/users`, {
         username: state.name,
         email: state.email,
         password: state.password,
@@ -60,7 +60,7 @@ export default function SignUp() {
         alert("Account was successfully created")
       })
       .catch(error => {
-        alert(error)
+        alert("Error" + error.response.data.error)
       })
     }
     else {
