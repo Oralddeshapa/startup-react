@@ -21,7 +21,7 @@
     "web-vitals": "^1.0.1"
   },
   "engines": {
-    "node": "16.x" 
+    "node": "16.x"
   },
   "scripts": {
     "start": "PORT=3006 react-scripts start",
@@ -38,7 +38,6 @@
   "browserslist": {
     "production": [
       ">0.2%",
-      "not dead",
       "not op_mini all"
     ],
     "development": [
