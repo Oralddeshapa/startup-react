@@ -5,7 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.12.1",
     "@material-ui/icons": "^4.11.2",
-    "@material-ui/lab": "*",
+    "@material-ui/lab": "^4.0.0-alpha.60",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -16,9 +16,12 @@
     "react-dom": "^17.0.2",
     "react-hot-loader": "^4.13.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
+    "react-scripts": "^1.1.5",
     "reactstrap": "^8.9.0",
     "web-vitals": "^1.0.1"
+  },
+  "engines": {
+    "node": "16.x"
   },
   "scripts": {
     "start": "PORT=3006 react-scripts start",
@@ -35,7 +38,6 @@
   "browserslist": {
     "production": [
       ">0.2%",
-      "not dead",
       "not op_mini all"
     ],
     "development": [
@@ -43,5 +45,18 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Oralddeshapa/startup-react.git"
+  },
+  "author": "Orald",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Oralddeshapa/startup-react/issues"
+  },
+  "homepage": "https://ustartup.herokuapp.com"
 }

@@ -2,11 +2,8 @@ import React, { useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import CreateIcon from '@material-ui/icons/Create';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
 
@@ -53,7 +50,7 @@ export default function CreateIdea() {
 
   const handleSubmit = (e) => {
     if (state.title && state.problem && state.region && state.field) {
-      axios.post(`${process.env.REACT_APP_API_URL}/api/v1/ideas#create`, {
+      axios.post(`${process.env.REACT_APP_API_URL}/ideas#create`, {
         title: state.title,
         problem: state.problem,
         region: state.region,

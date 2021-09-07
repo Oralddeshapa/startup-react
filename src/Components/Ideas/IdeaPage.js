@@ -1,14 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import CreateIcon from '@material-ui/icons/Create';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { Table } from 'reactstrap';
 import axios from 'axios';
 
 import useStyles from './IdeaPageStyles.js'
@@ -18,7 +13,8 @@ export default function CreateIdea() {
   const classes = useStyles();
   const { id } = useParams();
 
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
+    creator: '',
     title: '',
     problem: '',
     field: '',
@@ -35,6 +31,7 @@ export default function CreateIdea() {
      .then(res => {
        let data = res.data
        setState({
+         creator: data["creator"],
          title: data["title"],
          problem: data["problem"],
          field: data["field"],
@@ -53,40 +50,30 @@ export default function CreateIdea() {
         <Avatar className={classes.avatar}>
           <CreateIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
-          Create Idea
-        </Typography>
-        <form className={classes.form} noValidate>
-          <TextField
-            disabled
-            variant="outlined"
-            margin="normal"
-            label="Required"
-            inputProps={{
-              name: 'title',
-            }}
-            fullWidth
-          />
-          <TextField
-            disabled
-            variant="outlined"
-            margin="normal"
-            inputProps={{
-              name: 'problem',
-            }}
-            label="Required"
-            fullWidth
-          />
-
-          <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            >
-            Create Idea
-          </Button>
-        </form>
+        <Table>
+          <tbody>
+          <tr>
+            <th scope="row">Creator</th>
+            <td>{state.creator}</td>
+          </tr>
+            <tr>
+              <th scope="row">Title</th>
+              <td>{state.title}</td>
+            </tr>
+            <tr>
+              <th scope="row">Problem</th>
+              <td>{state.problem}</td>
+            </tr>
+            <tr>
+              <th scope="row">Field</th>
+              <td>{state.field}</td>
+            </tr>
+            <tr>
+              <th scope="row">Region</th>
+              <td>{state.region}</td>
+            </tr>
+          </tbody>
+        </Table>
       </div>
     </Container>
   );

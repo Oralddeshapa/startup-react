@@ -44,7 +44,11 @@ export default class IdeaList extends React.Component {
               <tr key={ idea.id }>
                 <th scope="row">{ idea.id }</th>
                 <td>{ idea.creator }</td>
-                <td>{ idea.title }</td>
+                <td>
+                  <a href={'/ideas/' + idea.id}>
+                    { idea.title }
+                  </a>
+                </td>
                 <td>{ idea.problem }</td>
                 <td>{ idea.region }</td>
                 <td>{ idea.field }</td>
