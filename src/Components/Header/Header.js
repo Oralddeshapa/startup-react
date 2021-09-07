@@ -47,7 +47,7 @@ export default function Header() {
               <NavLink
                 style={{visibility: localStorage.getItem('token') ? 'visible' : 'hidden' }}
               >
-                { localStorage.getItem('username').toUpperCase() }
+                { localStorage.getItem('username')? 'Empty' : localStorage.getItem('username').toUpperCase() }
               </NavLink>
             </NavItem>
             <NavItem>
