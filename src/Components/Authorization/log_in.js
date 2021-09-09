@@ -37,11 +37,13 @@ export default function LogIn() {
     })
     .then(response => {
       localStorage.setItem('token', response.data["token"])
+      localStorage.setItem('role', response.data["role"])
       localStorage.setItem('username', response.data["username"])
-      alert('You successfully authorized')
+      console.log('You successfully authorized')
+      window.location.replace(`${process.env.REACT_APP_URL}`)
     })
     .catch(error => {
-      alert(error)
+      console.log(error)
     })
   }
 

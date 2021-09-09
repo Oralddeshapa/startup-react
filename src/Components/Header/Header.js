@@ -13,7 +13,17 @@ export default function Header() {
 
   let logout = (e) => {
     localStorage.removeItem('token');
-    window.location.reload(false)
+    window.location.reload(false);
+  }
+
+  function visible_for_role(role) {
+    if (localStorage.getItem('token')) {
+      if (localStorage.getItem('role') === role) {
+        return 'visible'
+      }
+      return 'hidden'
+    }
+    return 'hidden'
   }
 
   return (
@@ -21,36 +31,39 @@ export default function Header() {
       <Navbar color="light" light expand="md">
         <NavbarBrand href="/">StartUP</NavbarBrand>
         <Collapse navbar>
-          <Nav className="mr-auto" navbar>
+          <Nav className="mr-auto" navbar
+            style = {{width: "100%"}}>
             <NavItem>
               <NavLink href="/log_in"
-                style={{visibility: !localStorage.getItem('token') ? 'visible' : 'hidden' }}
+                style={{ visibility: !localStorage.getItem('token') ? 'visible' : 'hidden' }}
               >
                 Log In
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="/sign_up"
-                style={{visibility: !localStorage.getItem('token') ? 'visible' : 'hidden' }}
+                style={{ visibility: !localStorage.getItem('token') ? 'visible' : 'hidden' }}
               >
                 Sign Up
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="/new_idea"
-                style={{visibility: localStorage.getItem('token') ? 'visible' : 'hidden' }}
+                style={{ visibility: visible_for_role('creator') }}
               >
                 Create Idea
               </NavLink>
             </NavItem>
-            <NavItem>
+            <NavItem
+              style = {{"margin-left": "auto", "margin-right": "0"}}>
               <NavLink
-                style={{visibility: localStorage.getItem('token') ? 'visible' : 'hidden' }}
+                style={{ visibility: localStorage.getItem('token') ? 'visible' : 'hidden' }}
               >
-                { 'Name' }
+                { localStorage.getItem('username') ? localStorage.getItem('username') : 'Empty' }
               </NavLink>
             </NavItem>
-            <NavItem>
+            <NavItem
+              style = {{"margin-right": "5%", cursor: "pointer"}}>
               <NavLink
                 onClick = {
                   () => logout()

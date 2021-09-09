@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { render } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -53,10 +53,10 @@ export default function SignUp() {
         token: localStorage.getItem('token')
       })
       .then(response => {
-        alert("Account was successfully created")
+        window.location.replace(`${process.env.REACT_APP_URL}` + '/log_in')
       })
       .catch(error => {
-        alert("Error" + error.response.data.error)
+        console.log("Error" + error)
       })
     }
     else {

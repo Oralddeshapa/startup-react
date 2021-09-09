@@ -36,7 +36,8 @@ export default function CreateIdea() {
        localStorage.setItem('fields', res.data["fields"])
      })
      .catch(error => {
-       alert(error)
+       console.log(error)
+       window.location.replace(`${process.env.REACT_APP_URL}`)
      })
   }, [])
 
@@ -59,6 +60,8 @@ export default function CreateIdea() {
       })
       .then(response => {
         alert("Idea was successfully created")
+        console.log(response.data["id"])
+        window.location.replace(`${process.env.REACT_APP_URL}` + '/ideas/' + response.data["id"])
       })
       .catch(error => {
         alert(error)
@@ -81,6 +84,7 @@ export default function CreateIdea() {
             variant="outlined"
             margin="normal"
             required
+            label="Title"
             inputProps={{
               name: 'title',
             }}
@@ -95,6 +99,7 @@ export default function CreateIdea() {
               name: 'problem',
             }}
             required
+            label="Problem"
             fullWidth
             autoFocus
             onChange={handleChange}
