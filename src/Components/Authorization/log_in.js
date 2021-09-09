@@ -60,24 +60,24 @@ export default function LogIn() {
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
-            variant="outlined"
+            variant="filled"
             margin="normal"
             required
             fullWidth
             id="email"
-            label="Email Address"
+            helperText="Email Address"
             name="email"
             autoComplete="email"
             autoFocus
             onChange={handleEmailChange}
           />
           <TextField
-            variant="outlined"
+            variant="filled"
             margin="normal"
             required
             fullWidth
             name="password"
-            label="Password"
+            helperText="Password"
             type="password"
             id="password"
             autoComplete="current-password"

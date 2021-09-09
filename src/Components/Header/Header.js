@@ -65,6 +65,7 @@ export default function Header() {
             <NavItem
               style = {{"margin-right": "5%", cursor: "pointer"}}>
               <NavLink
+                style={{ visibility: localStorage.getItem('token') ? 'visible' : 'hidden' }}
                 onClick = {
                   () => logout()
                 }>

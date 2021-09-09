@@ -81,10 +81,10 @@ export default function CreateIdea() {
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
-            variant="outlined"
+            variant="filled"
             margin="normal"
             required
-            label="Title"
+            helperText="Title"
             inputProps={{
               name: 'title',
             }}
@@ -93,13 +93,13 @@ export default function CreateIdea() {
             onChange={handleChange}
           />
           <TextField
-            variant="outlined"
+            variant="filled"
             margin="normal"
             inputProps={{
               name: 'problem',
             }}
             required
-            label="Problem"
+            helperText="Problem"
             fullWidth
             autoFocus
             onChange={handleChange}
