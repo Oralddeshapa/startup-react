@@ -3,6 +3,7 @@ import LogIn from '../Components/Authorization/log_in';
 import SignUp from '../Components/Authorization/sign_up'
 import IdeaList from '../Components/Ideas/IdeaList'
 import NewIdea from '../Components/Ideas/CreateIdea'
+import UpdateIdea from '../Components/Ideas/UpdateIdea'
 import Idea from '../Components/Ideas/IdeaPage'
 import { BrowserRouter as Router, Route } from "react-router-dom"
 
@@ -16,6 +17,7 @@ class Routers extends Component {
           <Route path="/sign_up" component={SignUp} />
           <Route path="/log_in" component={LogIn} />
           <Route path="/new_idea" component={NewIdea}/>
+          <Route path="/update_idea/:id" component={UpdateIdea}/>
           <Route path="/ideas/:id" component={Idea}/>
         </div>
       </Router>

@@ -15,16 +15,18 @@ const useStyles = makeStyles((theme) => ({
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(3),
   },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
+  button: {
+    display: 'inline-block',
+    width: '45%',
+    margin: theme.spacing(1, 1, 1),
   },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
+  button_block: {
+    width: '100%',
   },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
+  comment_btn: {
+    width: '60%',
+    marginLeft: '19%',
+  }
 }));
 
 export default useStyles;
