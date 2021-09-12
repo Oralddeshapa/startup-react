@@ -59,12 +59,11 @@ export default function CreateIdea() {
         token: localStorage.getItem('token')
       })
       .then(response => {
-        alert("Idea was successfully created")
         console.log(response.data["id"])
         window.location.replace(`${process.env.REACT_APP_URL}` + '/ideas/' + response.data["id"])
       })
       .catch(error => {
-        alert(error)
+        console.log(error)
       })
     }
   };
