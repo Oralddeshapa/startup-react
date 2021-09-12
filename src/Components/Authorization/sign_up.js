@@ -53,7 +53,21 @@ export default function SignUp() {
         token: localStorage.getItem('token')
       })
       .then(response => {
-        window.location.replace(`${process.env.REACT_APP_URL}` + '/log_in')
+        axios.post(`${process.env.REACT_APP_API_URL}/authorize`, {
+          email: state.email,
+          password: state.password,
+          token: localStorage.getItem('token') //do u even need it ?
+        })
+        .then(response => {
+          localStorage.setItem('token', response.data["token"])
+          localStorage.setItem('role', response.data["role"])
+          localStorage.setItem('username', response.data["username"])
+          console.log('You successfully authorized')
+          window.location.replace(`${process.env.REACT_APP_URL}`)
+        })
+        .catch(error => {
+          console.log(error)
+        })
       })
       .catch(error => {
         console.log("Error" + error)

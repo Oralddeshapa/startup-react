@@ -55,11 +55,11 @@ export default function CreateIdea() {
   const handleComment = (e) => {
     axios.post(`${process.env.REACT_APP_API_URL}/comments#create`, {
       text: state.text,
-      idea_id: id,
+      id: id,
       token: localStorage.getItem('token')
     })
      .then(res => {
-       window.location.replace(`${process.env.REACT_APP_URL}`)
+       window.location.reload(false);
      })
      .catch(error => {
        console.log(error)
@@ -102,7 +102,7 @@ export default function CreateIdea() {
             <Table bordered hover>
               <thead>
                 <tr>
-                  <th>Comment</th>
+                  <th>Comments</th>
                 </tr>
               </thead>
               <tbody>
