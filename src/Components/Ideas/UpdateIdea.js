@@ -28,8 +28,8 @@ export default function UpdateIdea() {
   });
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_URL}/get_fields`,
-    { params: {
+    axios.get(`${process.env.REACT_APP_API_URL}/get_fields`, {
+      params: {
         token: localStorage.getItem('token'),
       }
     })

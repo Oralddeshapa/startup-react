@@ -16,12 +16,9 @@ export default function Header() {
     window.location.reload(false);
   }
 
-  function visible_for_role(role) {
-    if (localStorage.getItem('token')) {
-      if (localStorage.getItem('role') === role) {
-        return 'visible'
-      }
-      return 'hidden'
+  function visibleForRole(role) {
+    if ((localStorage.getItem('token')) && (localStorage.getItem('role') === role)) {
+      return 'visible'
     }
     return 'hidden'
   }
@@ -49,7 +46,7 @@ export default function Header() {
             </NavItem>
             <NavItem>
               <NavLink href="/new_idea"
-                style={{ visibility: visible_for_role('creator') }}
+                style={{ visibility: visibleForRole('creator') }}
               >
                 Create Idea
               </NavLink>

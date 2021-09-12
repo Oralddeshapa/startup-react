@@ -27,8 +27,8 @@ export default function CreateIdea() {
   });
 
   const handleDelete = (e) => {
-    axios.delete(`${process.env.REACT_APP_API_URL}/ideas/${id}#destroy`,
-    { params: {
+    axios.delete(`${process.env.REACT_APP_API_URL}/ideas/${id}#destroy`, {
+      params: {
         token: localStorage.getItem('token'),
         id: id,
       }
@@ -67,8 +67,8 @@ export default function CreateIdea() {
   };
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_URL}/ideas/${id}`,
-    { params: {
+    axios.get(`${process.env.REACT_APP_API_URL}/ideas/${id}`, {
+      params: {
         token: localStorage.getItem('token'),
         id: id,
       }
