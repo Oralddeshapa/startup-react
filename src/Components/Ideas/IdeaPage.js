@@ -8,6 +8,7 @@ import { Table } from 'reactstrap';
 import ReactDOM from 'react-dom';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
+import { Redirect } from 'react-router'
 
 import useStyles from './IdeaPageStyles.js'
 
@@ -24,6 +25,8 @@ export default function CreateIdea() {
     problem: '',
     field: '',
     region: '',
+    redirect_root: false,
+    redirect_update: false,
   });
 
   const handleDelete = (e) => {
@@ -34,7 +37,10 @@ export default function CreateIdea() {
       }
     })
      .then(res => {
-       window.location.replace(`${process.env.REACT_APP_URL}`)
+       setState({
+         ...state,
+         redirect_root: true
+       });
      })
      .catch(error => {
        console.log(error)
@@ -49,7 +55,10 @@ export default function CreateIdea() {
   }
 
   const handleUpdate = (e) => {
-    window.location.replace(`${process.env.REACT_APP_URL}/update_idea/` + id)
+    setState({
+      ...state,
+      redirect_update: true
+    });
   };
 
   const handleComment = (e) => {
@@ -85,7 +94,10 @@ export default function CreateIdea() {
      })
      .catch(error => {
        console.log(error)
-       window.location.replace(`${process.env.REACT_APP_URL}`)
+       setState({
+         ...state,
+         redirect_root: true,
+       });
      })
 
      if (localStorage.getItem('role') === 'investor') {
@@ -119,7 +131,10 @@ export default function CreateIdea() {
         })
         .catch(error => {
           console.log(error)
-          window.location.replace(`${process.env.REACT_APP_URL}`)
+          setState({
+            ...state,
+            redirect_root: true,
+          });
         })
      }
   }, [])
@@ -211,6 +226,8 @@ export default function CreateIdea() {
           }
 
       </div>
+      { state.redirect_root ? <Redirect to='/'/> : <p/>}
+      { state.redirect_update ? <Redirect to={'/update_idea/' + id}/> : <p/>}
     </Container>
   );
 

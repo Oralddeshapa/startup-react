@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -13,20 +13,29 @@ import Container from '@material-ui/core/Container';
 import Copyright from './Copyright.js'
 import useStyles from './Authorization.js'
 import axios from 'axios';
+import { Redirect } from 'react-router'
+
 
 export default function LogIn() {
 
-  let state = {
+  const [state, setState] = useState({
     email: '',
     password: '',
-  }
+    redirect_root: false,
+  })
 
   let handleEmailChange = (e) => {
-    state.email = e.target.value;
+    setState({
+      ...state,
+      email: e.target.value
+    });
   }
 
   let handlePassChange = (e) => {
-    state.password = e.target.value;
+    setState({
+      ...state,
+      password: e.target.value
+    });
   }
 
   let handleSubmit = (e) => {
@@ -39,8 +48,11 @@ export default function LogIn() {
       localStorage.setItem('token', response.data["token"])
       localStorage.setItem('role', response.data["role"])
       localStorage.setItem('username', response.data["username"])
-      console.log('You successfully authorized')
-      window.location.replace(`${process.env.REACT_APP_URL}`)
+      setState({
+        ...state,
+        redirect_root: true
+      });
+      console.log('authorized')
     })
     .catch(error => {
       console.log(error)
@@ -114,6 +126,7 @@ export default function LogIn() {
       <Box mt={8}>
         <Copyright />
       </Box>
+      { state.redirect_root ? <Redirect to='/'/> : <p/>}
     </Container>
   );
 }

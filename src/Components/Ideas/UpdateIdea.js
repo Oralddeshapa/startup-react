@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -13,18 +13,20 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import useStyles from './CreateIdeaStyles.js'
-import { useParams } from 'react-router';
+import { useParams, Redirect } from 'react-router';
 
 export default function UpdateIdea() {
 
   const classes = useStyles();
   const { id } = useParams();
 
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     title: '',
     problem: '',
     field: '',
     region: '',
+    redirect_root: false,
+    redirect_back: false,
   });
 
   useEffect(() => {
@@ -40,7 +42,10 @@ export default function UpdateIdea() {
      })
      .catch(error => {
        console.log(error)
-       window.location.replace(`${process.env.REACT_APP_URL}/ideas/${id}`)
+       setState({
+         ...state,
+         redirect_back: true,
+       });
      })
 
      axios.get(`${process.env.REACT_APP_API_URL}/ideas/${id}`,
@@ -60,7 +65,10 @@ export default function UpdateIdea() {
      })
      .catch(error => {
         console.log(error)
-        window.location.replace(`${process.env.REACT_APP_URL}/ideas/${id}`)
+        setState({
+          ...state,
+          redirect_back: true,
+        });
       })
   }, [])
 
@@ -83,7 +91,10 @@ export default function UpdateIdea() {
         token: localStorage.getItem('token')
       })
       .then(response => {
-        window.location.replace(`${process.env.REACT_APP_URL}`)
+        setState({
+          ...state,
+          redirect_root: true,
+        });
       })
       .catch(error => {
         console.log(error)
@@ -173,6 +184,8 @@ export default function UpdateIdea() {
           </Button>
         </form>
       </div>
+      { state.redirect_root ? <Redirect to='/'/> : <p/>}
+      { state.redirect_back ? <Redirect to={'/ideas/' + id}/> : <p/>}
     </Container>
   );
 

@@ -1,4 +1,4 @@
-import React, { render } from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -9,6 +9,8 @@ import Container from '@material-ui/core/Container';
 import Copyright from './Copyright.js'
 import useStyles from './Authorization.js'
 import axios from 'axios';
+import { Redirect } from 'react-router'
+import { useHistory } from 'react-router-dom'
 
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -18,29 +20,44 @@ const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"
 
 export default function SignUp() {
 
+  let history = useHistory();
+
   const classes = useStyles();
 
-  let state = {
+  const [state, setState] = useState({
     name: '',
     email: '',
     password: '',
     role: 'Creator',
-  }
+    redirect_root: false,
+  })
 
   let handleNameChange = (e) => {
-    state.name = e.target.value;
+    setState({
+      ...state,
+      name: e.target.value
+    });
   }
 
   let handleEmailChange = (e) => {
-    state.email = e.target.value;
+    setState({
+      ...state,
+      email: e.target.value
+    });
   }
 
   let handlePassChange = (e) => {
-    state.password = e.target.value;
+    setState({
+      ...state,
+      password: e.target.value
+    });
   }
 
   const handleRoleChange = (e) => {
-    state.role = e.target.value;
+    setState({
+      ...state,
+      role: e.target.value
+    });
   };
 
   let handleSubmit = (e) => {
@@ -62,8 +79,7 @@ export default function SignUp() {
           localStorage.setItem('token', response.data["token"])
           localStorage.setItem('role', response.data["role"])
           localStorage.setItem('username', response.data["username"])
-          console.log('You successfully authorized')
-          window.location.replace(`${process.env.REACT_APP_URL}`)
+          history.push('/')
         })
         .catch(error => {
           console.log(error)
@@ -158,6 +174,7 @@ export default function SignUp() {
       <Box mt={5}>
         <Copyright />
       </Box>
+      { state.redirect_root ? <Redirect to='/'/> : <p/>}
     </Container>
   );
 }
