@@ -1,6 +1,5 @@
 import {LOAD_IDEAS, SORT_UP_IDEAS, SORT_DOWN_IDEAS} from '../types'
 import _, {map} from 'underscore'
-
 const initState = {
   ideas: []
 }
