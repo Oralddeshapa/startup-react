@@ -15,8 +15,11 @@ import useStyles from './Authorization.js'
 import axios from 'axios';
 import { Redirect } from 'react-router'
 
+import { useDispatch } from 'react-redux'
 
-export default function LogIn() {
+function LogIn() {
+
+  const dispatch = useDispatch()
 
   const [state, setState] = useState({
     email: '',
@@ -48,11 +51,16 @@ export default function LogIn() {
       localStorage.setItem('token', response.data["token"])
       localStorage.setItem('role', response.data["role"])
       localStorage.setItem('username', response.data["username"])
+      dispatch({ type: 'LOGIN',
+                 payload: {
+                  username: response.data["username"],
+                  role: response.data["role"],
+                  token: response.data["token"] }
+                })
       setState({
         ...state,
         redirect_root: true
       });
-      console.log('authorized')
     })
     .catch(error => {
       console.log(error)
@@ -130,3 +138,5 @@ export default function LogIn() {
     </Container>
   );
 }
+
+export default LogIn

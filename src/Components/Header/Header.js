@@ -9,22 +9,23 @@ import {
   NavLink,
 } from 'reactstrap';
 import './Header.css';
+import { useSelector, useDispatch } from 'react-redux'
 
 export default function Header() {
 
-  const [state, setState] = useState({
-    token: '',
-    name: '',
-    role: '',
-  });
+  const dispatch = useDispatch()
+
+  const name = useSelector((state) => state.login.username)
+  const role = useSelector((state) => state.login.role)
+  const token = useSelector((state) => state.login.token)
 
   useEffect(() => {
-    setState({
-      name: localStorage.getItem('username'),
-      token: localStorage.getItem('token'),
-      role: localStorage.getItem('role'),
-    });
-
+    dispatch({ type: 'LOGIN',
+               payload: {
+                username: localStorage.getItem('username'),
+                role: localStorage.getItem('role'),
+                token: localStorage.getItem('token') }
+              })
   }, [])
 
   let logout = (e) => {
@@ -32,8 +33,8 @@ export default function Header() {
     window.location.reload(false);
   }
 
-  function visibleForRole(role) {
-    if ((state.token) && (state.role === role)) {
+  function visibleForRole(i_role) {
+    if ((token) && (role === i_role)) {
       return 'visible'
     }
     return 'hidden'
@@ -48,14 +49,14 @@ export default function Header() {
             style = {{width: "100%"}}>
             <NavItem>
               <NavLink href="/log_in"
-                style={{ visibility: !state.token ? 'visible' : 'hidden' }}
+                style={{ visibility: !token ? 'visible' : 'hidden' }}
               >
                 Log In
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="/sign_up"
-                style={{ visibility: !state.token ? 'visible' : 'hidden' }}
+                style={{ visibility: !token ? 'visible' : 'hidden' }}
               >
                 Sign Up
               </NavLink>
@@ -70,15 +71,15 @@ export default function Header() {
             <NavItem
               style = {{"margin-left": "auto", "margin-right": "0"}}>
               <NavLink
-                style={{ visibility: state.token ? 'visible' : 'hidden' }}
+                style={{ visibility: token ? 'visible' : 'hidden' }}
               >
-                { state.name ? state.name : 'Empty' }
+                { name ? name : '' }
               </NavLink>
             </NavItem>
             <NavItem
               style = {{"margin-right": "5%", cursor: "pointer"}}>
               <NavLink
-                style={{ visibility: state.token ? 'visible' : 'hidden' }}
+                style={{ visibility: token ? 'visible' : 'hidden' }}
                 onClick = {
                   () => logout()
                 }>

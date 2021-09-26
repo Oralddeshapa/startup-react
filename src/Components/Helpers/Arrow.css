@@ -1,0 +1,9 @@
+.Arrows {
+  display: inline-block;
+  height: 5%;
+}
+
+.arrow {
+  margin-top: -80%;
+  margin-bottom: -80%;
+}
