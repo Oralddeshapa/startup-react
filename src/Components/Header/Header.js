@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom'
+import { useHistory } from "react-router-dom";
 import {
   Collapse,
   Navbar,
@@ -14,7 +15,7 @@ import { useSelector, useDispatch } from 'react-redux'
 export default function Header() {
 
   const dispatch = useDispatch()
-
+  let history = useHistory()
   const name = useSelector((state) => state.login.username)
   const role = useSelector((state) => state.login.role)
   const token = useSelector((state) => state.login.token)
@@ -30,7 +31,7 @@ export default function Header() {
 
   let logout = (e) => {
     localStorage.removeItem('token');
-    window.location.reload(false);
+    history.push('/log_in')
   }
 
   function visibleForRole(i_role) {

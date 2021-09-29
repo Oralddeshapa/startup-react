@@ -9,6 +9,7 @@ import ReactDOM from 'react-dom';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import { Redirect } from 'react-router'
+import { useSelector, useDispatch } from 'react-redux'
 
 import useStyles from './IdeaPageStyles.js'
 
@@ -16,7 +17,8 @@ export default function CreateIdea() {
 
   const classes = useStyles();
   const { id } = useParams();
-  let comments = []
+  const dispatch = useDispatch()
+  const comments = useSelector((state) => state.comments.comments)
 
   const [state, setState] = useState({
     text: '',
@@ -64,11 +66,11 @@ export default function CreateIdea() {
   const handleComment = (e) => {
     axios.post(`${process.env.REACT_APP_API_URL}/comments#create`, {
       text: state.text,
-      id: id,
+      idea_id: id,
       token: localStorage.getItem('token')
     })
      .then(res => {
-       window.location.reload(false);
+       dispatch({type: 'LOAD_COMMENTS', payload: res.data.comments})
      })
      .catch(error => {
        console.log(error)
@@ -104,30 +106,11 @@ export default function CreateIdea() {
        axios.get(`${process.env.REACT_APP_API_URL}/comments`,
        { params: {
            token: localStorage.getItem('token'),
-           id: id,
+           idea_id: id,
          }
        })
         .then(res => {
-          comments = res.data
-          const element = (
-            <div id="comments">
-            <Table bordered hover>
-              <thead>
-                <tr>
-                  <th>Comments</th>
-                </tr>
-              </thead>
-              <tbody>
-                { comments.map( comment =>
-                  <tr key={ comment.id }>
-                    <td>{ comment.text }</td>
-                  </tr>
-                ) }
-              </tbody>
-            </Table>
-          </div>
-          )
-          ReactDOM.render(element, document.getElementById('comments'))
+          dispatch({type: 'LOAD_COMMENTS', payload: res.data})
         })
         .catch(error => {
           console.log(error)
@@ -196,7 +179,22 @@ export default function CreateIdea() {
               </div>
             ) : (
             <div className={classes.button_block}>
-              <div id="comments"></div>
+              <div id="comments">
+                <Table bordered hover>
+                  <thead>
+                    <tr>
+                      <th>Comments</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    { comments.map( comment =>
+                      <tr key={ comment.id }>
+                        <td>{ comment.text }</td>
+                      </tr>
+                    ) }
+                  </tbody>
+                </Table>
+              </div>
               <div>
                 <TextField
                   variant="filled"
