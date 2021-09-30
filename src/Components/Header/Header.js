@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import {
   Collapse,
   Navbar,
@@ -11,23 +12,35 @@ import './Header.css';
 
 export default function Header() {
 
+  const [state, setState] = useState({
+    token: '',
+    name: '',
+    role: '',
+  });
+
+  useEffect(() => {
+    setState({
+      name: localStorage.getItem('username'),
+      token: localStorage.getItem('token'),
+      role: localStorage.getItem('role'),
+    });
+
+  }, [])
+
   let logout = (e) => {
     localStorage.removeItem('token');
     window.location.reload(false);
   }
 
-  function visible_for_role(role) {
-    if (localStorage.getItem('token')) {
-      if (localStorage.getItem('role') === role) {
-        return 'visible'
-      }
-      return 'hidden'
+  function visibleForRole(role) {
+    if ((state.token) && (state.role === role)) {
+      return 'visible'
     }
     return 'hidden'
   }
 
   return (
-    <div className="NavbarBrand">
+    <div className="NavbarBrand" id='NavBar'>
       <Navbar color="light" light expand="md">
         <NavbarBrand href="/">StartUP</NavbarBrand>
         <Collapse navbar>
@@ -35,21 +48,21 @@ export default function Header() {
             style = {{width: "100%"}}>
             <NavItem>
               <NavLink href="/log_in"
-                style={{ visibility: !localStorage.getItem('token') ? 'visible' : 'hidden' }}
+                style={{ visibility: !state.token ? 'visible' : 'hidden' }}
               >
                 Log In
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="/sign_up"
-                style={{ visibility: !localStorage.getItem('token') ? 'visible' : 'hidden' }}
+                style={{ visibility: !state.token ? 'visible' : 'hidden' }}
               >
                 Sign Up
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="/new_idea"
-                style={{ visibility: visible_for_role('creator') }}
+                style={{ visibility: visibleForRole('creator') }}
               >
                 Create Idea
               </NavLink>
@@ -57,15 +70,15 @@ export default function Header() {
             <NavItem
               style = {{"margin-left": "auto", "margin-right": "0"}}>
               <NavLink
-                style={{ visibility: localStorage.getItem('token') ? 'visible' : 'hidden' }}
+                style={{ visibility: state.token ? 'visible' : 'hidden' }}
               >
-                { localStorage.getItem('username') ? localStorage.getItem('username') : 'Empty' }
+                { state.name ? state.name : 'Empty' }
               </NavLink>
             </NavItem>
             <NavItem
               style = {{"margin-right": "5%", cursor: "pointer"}}>
               <NavLink
-                style={{ visibility: localStorage.getItem('token') ? 'visible' : 'hidden' }}
+                style={{ visibility: state.token ? 'visible' : 'hidden' }}
                 onClick = {
                   () => logout()
                 }>

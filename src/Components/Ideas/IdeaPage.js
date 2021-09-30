@@ -3,9 +3,12 @@ import { useParams } from 'react-router';
 import Avatar from '@material-ui/core/Avatar';
 import CreateIcon from '@material-ui/icons/Create';
 import Container from '@material-ui/core/Container';
+import TextField from '@material-ui/core/TextField';
 import { Table } from 'reactstrap';
+import ReactDOM from 'react-dom';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
+import { Redirect } from 'react-router'
 
 import useStyles from './IdeaPageStyles.js'
 
@@ -13,37 +16,68 @@ export default function CreateIdea() {
 
   const classes = useStyles();
   const { id } = useParams();
+  let comments = []
 
   const [state, setState] = useState({
+    text: '',
     creator: '',
     title: '',
     problem: '',
     field: '',
     region: '',
+    redirect_root: false,
+    redirect_update: false,
   });
 
   const handleDelete = (e) => {
-    axios.delete(`${process.env.REACT_APP_API_URL}/ideas/${id}#destroy`,
-    { params: {
+    axios.delete(`${process.env.REACT_APP_API_URL}/ideas/${id}#destroy`, {
+      params: {
         token: localStorage.getItem('token'),
         id: id,
       }
     })
      .then(res => {
-       window.location.replace(`${process.env.REACT_APP_URL}`)
+       setState({
+         ...state,
+         redirect_root: true
+       });
      })
      .catch(error => {
        console.log(error)
      })
   };
 
+  const handleChange = (e) => {
+    setState({
+      ...state,
+      text: e.target.value
+    });
+  }
+
   const handleUpdate = (e) => {
-    window.location.replace(`${process.env.REACT_APP_URL}/update_idea/` + id)
+    setState({
+      ...state,
+      redirect_update: true
+    });
+  };
+
+  const handleComment = (e) => {
+    axios.post(`${process.env.REACT_APP_API_URL}/comments#create`, {
+      text: state.text,
+      id: id,
+      token: localStorage.getItem('token')
+    })
+     .then(res => {
+       window.location.reload(false);
+     })
+     .catch(error => {
+       console.log(error)
+     })
   };
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_URL}/ideas/${id}`,
-    { params: {
+    axios.get(`${process.env.REACT_APP_API_URL}/ideas/${id}`, {
+      params: {
         token: localStorage.getItem('token'),
         id: id,
       }
@@ -60,8 +94,49 @@ export default function CreateIdea() {
      })
      .catch(error => {
        console.log(error)
-       window.location.replace(`${process.env.REACT_APP_URL}`)
+       setState({
+         ...state,
+         redirect_root: true,
+       });
      })
+
+     if (localStorage.getItem('role') === 'investor') {
+       axios.get(`${process.env.REACT_APP_API_URL}/comments`,
+       { params: {
+           token: localStorage.getItem('token'),
+           id: id,
+         }
+       })
+        .then(res => {
+          comments = res.data
+          const element = (
+            <div id="comments">
+            <Table bordered hover>
+              <thead>
+                <tr>
+                  <th>Comments</th>
+                </tr>
+              </thead>
+              <tbody>
+                { comments.map( comment =>
+                  <tr key={ comment.id }>
+                    <td>{ comment.text }</td>
+                  </tr>
+                ) }
+              </tbody>
+            </Table>
+          </div>
+          )
+          ReactDOM.render(element, document.getElementById('comments'))
+        })
+        .catch(error => {
+          console.log(error)
+          setState({
+            ...state,
+            redirect_root: true,
+          });
+        })
+     }
   }, [])
 
   return (
@@ -119,22 +194,40 @@ export default function CreateIdea() {
                   Delete
                 </Button>
               </div>
-            ) :
+            ) : (
             <div className={classes.button_block}>
-              <Button
-                fullWidth
-                variant="contained"
-                color="secondary"
-                className={classes.comment_btn}
-                onClick={(e) => {
-                handleDelete(e)
-                }}>
-                Comment
-              </Button>
+              <div id="comments"></div>
+              <div>
+                <TextField
+                  variant="filled"
+                  margin="normal"
+                  required
+                  helperText="comment"
+                  inputProps={{
+                    name: 'text',
+                  }}
+                  fullWidth
+                  autoFocus
+                  onChange={handleChange}
+                />
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="secondary"
+                  className={classes.comment_btn}
+                  onClick={(e) => {
+                  handleComment(e)
+                  }}>
+                  Comment
+                </Button>
+              </div>
             </div>
+            )
           }
 
       </div>
+      { state.redirect_root ? <Redirect to='/'/> : <p/>}
+      { state.redirect_update ? <Redirect to={'/update_idea/' + id}/> : <p/>}
     </Container>
   );
 

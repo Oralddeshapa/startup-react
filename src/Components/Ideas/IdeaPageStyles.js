@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
   button_block: {
     width: '100%',
+    margin: theme.spacing(1, 1, 1),
   },
   comment_btn: {
     width: '60%',

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -6,6 +6,7 @@ import CreateIcon from '@material-ui/icons/Create';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
+import { Redirect } from 'react-router'
 
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -18,11 +19,14 @@ export default function CreateIdea() {
 
   const classes = useStyles();
 
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     title: '',
     problem: '',
     field: '',
     region: '',
+    id: '',
+    redirect_root: false,
+    redirect_back: false,
   });
 
   useEffect(() => {
@@ -37,7 +41,10 @@ export default function CreateIdea() {
      })
      .catch(error => {
        console.log(error)
-       window.location.replace(`${process.env.REACT_APP_URL}`)
+       setState({
+         ...state,
+         redirect_root: true
+       });
      })
   }, [])
 
@@ -59,12 +66,15 @@ export default function CreateIdea() {
         token: localStorage.getItem('token')
       })
       .then(response => {
-        alert("Idea was successfully created")
         console.log(response.data["id"])
-        window.location.replace(`${process.env.REACT_APP_URL}` + '/ideas/' + response.data["id"])
+        setState({
+          ...state,
+          redirect_back: true,
+          id: response.data["id"],
+        });
       })
       .catch(error => {
-        alert(error)
+        console.log(error)
       })
     }
   };
@@ -149,6 +159,8 @@ export default function CreateIdea() {
           </Button>
         </form>
       </div>
+      { state.redirect_root ? <Redirect to='/'/> : <p/>}
+      { state.redirect_to_idea ? <Redirect to={'/ideas/' + state.id}/> : <p/>}
     </Container>
   );
 
