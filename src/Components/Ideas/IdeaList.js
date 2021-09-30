@@ -10,7 +10,6 @@ export default class IdeaList extends React.Component {
   }
 
   componentDidMount() {
-    console.log(process.env.REACT_APP_API_URL)
     axios.get(`${process.env.REACT_APP_API_URL}/ideas`,
     { params: {
         token: localStorage.getItem('token')
@@ -20,7 +19,7 @@ export default class IdeaList extends React.Component {
        this.setState({ ideas: res.data })
      })
      .catch(error => {
-       alert(error)
+       console.log(error)
      })
   }
 

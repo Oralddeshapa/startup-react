@@ -4,6 +4,7 @@ import Avatar from '@material-ui/core/Avatar';
 import CreateIcon from '@material-ui/icons/Create';
 import Container from '@material-ui/core/Container';
 import { Table } from 'reactstrap';
+import Button from '@material-ui/core/Button';
 import axios from 'axios';
 
 import useStyles from './IdeaPageStyles.js'
@@ -20,6 +21,25 @@ export default function CreateIdea() {
     field: '',
     region: '',
   });
+
+  const handleDelete = (e) => {
+    axios.delete(`${process.env.REACT_APP_API_URL}/ideas/${id}#destroy`,
+    { params: {
+        token: localStorage.getItem('token'),
+        id: id,
+      }
+    })
+     .then(res => {
+       window.location.replace(`${process.env.REACT_APP_URL}`)
+     })
+     .catch(error => {
+       console.log(error)
+     })
+  };
+
+  const handleUpdate = (e) => {
+    window.location.replace(`${process.env.REACT_APP_URL}/update_idea/` + id)
+  };
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/ideas/${id}`,
@@ -39,7 +59,8 @@ export default function CreateIdea() {
        });
      })
      .catch(error => {
-       alert(error)
+       console.log(error)
+       window.location.replace(`${process.env.REACT_APP_URL}`)
      })
   }, [])
 
@@ -74,6 +95,45 @@ export default function CreateIdea() {
             </tr>
           </tbody>
         </Table>
+          {
+            localStorage.getItem('role') === 'creator' ? (
+              <div className={classes.button_block}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  onClick={(e) => {
+                  handleUpdate(e)
+                  }}>
+                  Update
+                </Button>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="secondary"
+                  className={classes.button}
+                  onClick={(e) => {
+                  handleDelete(e)
+                  }}>
+                  Delete
+                </Button>
+              </div>
+            ) :
+            <div className={classes.button_block}>
+              <Button
+                fullWidth
+                variant="contained"
+                color="secondary"
+                className={classes.comment_btn}
+                onClick={(e) => {
+                handleDelete(e)
+                }}>
+                Comment
+              </Button>
+            </div>
+          }
+
       </div>
     </Container>
   );

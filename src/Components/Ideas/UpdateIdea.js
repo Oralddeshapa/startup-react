@@ -13,10 +13,12 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import useStyles from './CreateIdeaStyles.js'
+import { useParams } from 'react-router';
 
-export default function CreateIdea() {
+export default function UpdateIdea() {
 
   const classes = useStyles();
+  const { id } = useParams();
 
   const [state, setState] = React.useState({
     title: '',
@@ -28,17 +30,38 @@ export default function CreateIdea() {
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/get_fields`,
     { params: {
-        token: localStorage.getItem('token')
+        token: localStorage.getItem('token'),
       }
     })
      .then(res => {
        localStorage.setItem('regions', res.data["regions"])
        localStorage.setItem('fields', res.data["fields"])
+
      })
      .catch(error => {
        console.log(error)
-       window.location.replace(`${process.env.REACT_APP_URL}`)
+       window.location.replace(`${process.env.REACT_APP_URL}/ideas/${id}`)
      })
+
+     axios.get(`${process.env.REACT_APP_API_URL}/ideas/${id}`,
+     { params: {
+         token: localStorage.getItem('token'),
+         id: id
+       }
+     })
+     .then(res => {
+       let data = res.data
+       setState({
+         title: data["title"],
+         problem: data["problem"],
+         field: data["field"],
+         region: data["region"],
+       });
+     })
+     .catch(error => {
+        console.log(error)
+        window.location.replace(`${process.env.REACT_APP_URL}/ideas/${id}`)
+      })
   }, [])
 
   const handleChange = (e) => {
@@ -51,7 +74,8 @@ export default function CreateIdea() {
 
   const handleSubmit = (e) => {
     if (state.title && state.problem && state.region && state.field) {
-      axios.post(`${process.env.REACT_APP_API_URL}/ideas#create`, {
+      axios.put(`${process.env.REACT_APP_API_URL}/ideas/${id}#update`, {
+        id: id,
         title: state.title,
         problem: state.problem,
         region: state.region,
@@ -59,12 +83,10 @@ export default function CreateIdea() {
         token: localStorage.getItem('token')
       })
       .then(response => {
-        alert("Idea was successfully created")
-        console.log(response.data["id"])
-        window.location.replace(`${process.env.REACT_APP_URL}` + '/ideas/' + response.data["id"])
+        window.location.replace(`${process.env.REACT_APP_URL}`)
       })
       .catch(error => {
-        alert(error)
+        console.log(error)
       })
     }
   };
@@ -77,13 +99,14 @@ export default function CreateIdea() {
           <CreateIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Create Idea
+          Update Idea
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
             variant="filled"
             margin="normal"
             required
+            value={state.title}
             helperText="Title"
             inputProps={{
               name: 'title',
@@ -95,6 +118,7 @@ export default function CreateIdea() {
           <TextField
             variant="filled"
             margin="normal"
+            value={state.problem}
             inputProps={{
               name: 'problem',
             }}
@@ -145,7 +169,7 @@ export default function CreateIdea() {
             onClick={(e) => {
             handleSubmit(e)
             }}>
-            Create Idea
+            Update Idea
           </Button>
         </form>
       </div>

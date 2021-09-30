@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { render } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -53,10 +53,10 @@ export default function SignUp() {
         token: localStorage.getItem('token')
       })
       .then(response => {
-        alert("Account was successfully created")
+        window.location.replace(`${process.env.REACT_APP_URL}` + '/log_in')
       })
       .catch(error => {
-        alert("Error" + error.response.data.error)
+        console.log("Error" + error)
       })
     }
     else {
@@ -77,34 +77,34 @@ export default function SignUp() {
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
-            variant="outlined"
+            variant="filled"
             margin="normal"
             required
             fullWidth
             id="name"
-            label="Name"
+            helperText="Name"
             name="name"
             autoFocus
             onChange={handleNameChange}
           />
           <TextField
-            variant="outlined"
+            variant="filled"
             margin="normal"
             required
             fullWidth
             id="email"
-            label="Email Address"
+            helperText="Email Address"
             name="email"
             autoFocus
             onChange={handleEmailChange}
           />
           <TextField
-            variant="outlined"
+            variant="filled"
             margin="normal"
             required
             fullWidth
             name="password"
-            label="Password"
+            helperText="Password"
             type="password"
             id="password"
             autoComplete="current-password"

@@ -37,11 +37,13 @@ export default function LogIn() {
     })
     .then(response => {
       localStorage.setItem('token', response.data["token"])
+      localStorage.setItem('role', response.data["role"])
       localStorage.setItem('username', response.data["username"])
-      alert('You successfully authorized')
+      console.log('You successfully authorized')
+      window.location.replace(`${process.env.REACT_APP_URL}`)
     })
     .catch(error => {
-      alert(error)
+      console.log(error)
     })
   }
 
@@ -58,24 +60,24 @@ export default function LogIn() {
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
-            variant="outlined"
+            variant="filled"
             margin="normal"
             required
             fullWidth
             id="email"
-            label="Email Address"
+            helperText="Email Address"
             name="email"
             autoComplete="email"
             autoFocus
             onChange={handleEmailChange}
           />
           <TextField
-            variant="outlined"
+            variant="filled"
             margin="normal"
             required
             fullWidth
             name="password"
-            label="Password"
+            helperText="Password"
             type="password"
             id="password"
             autoComplete="current-password"
