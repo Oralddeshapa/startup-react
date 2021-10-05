@@ -31,6 +31,12 @@ export default function Header() {
 
   let logout = (e) => {
     localStorage.removeItem('token');
+    dispatch({ type: 'LOGIN',
+               payload: {
+                username: null,
+                role: null,
+                token: null}
+              })
     history.push('/log_in')
   }
 

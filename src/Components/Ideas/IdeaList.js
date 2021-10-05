@@ -29,6 +29,10 @@ export default function IdeaList() {
      })
   },[])
 
+  const handleViews = (e) => {
+    console.log()
+  }
+
   return (
     <div>
       <div class="ILC">
@@ -66,6 +70,10 @@ export default function IdeaList() {
                 <th>Rating
                   <Arrows field='rating'/>
                 </th> : null }
+              { categories.views ?
+                <th>Views
+                  <Arrows field='views'/>
+                </th> : null }
             </tr>
           </thead>
           <tbody>
@@ -82,6 +90,7 @@ export default function IdeaList() {
                 { categories.region ? <td>{ idea.region }</td> : null }
                 { categories.field ? <td>{ idea.field }</td> : null }
                 { categories.rating ? <Rating name="simple-controlled" value={ idea.rating }/> : null }
+                { categories.views ? <td>{ idea.views }</td> : null }
               </tr>
             ) }
           </tbody>

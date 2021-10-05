@@ -29,6 +29,7 @@ export default function CreateIdea() {
     region: '',
     redirect_root: false,
     redirect_update: false,
+    subscribed: false,
   });
 
   const handleDelete = (e) => {
@@ -77,6 +78,39 @@ export default function CreateIdea() {
      })
   };
 
+  const handleSubscribtion = (e) => {
+    if (!state.subscribed) {
+      axios.post(`${process.env.REACT_APP_API_URL}/ideas/${id}/subscribe`, {
+        id: id,
+        token: localStorage.getItem('token')
+      })
+       .then(res => {
+         setState({
+           ...state,
+           subscribed: true
+         });
+       })
+       .catch(error => {
+         console.log(error)
+       })
+    }
+    else {
+      axios.post(`${process.env.REACT_APP_API_URL}/ideas/${id}/unsubscribe`, {
+        idea_id: id,
+        token: localStorage.getItem('token')
+      })
+       .then(res => {
+         setState({
+           ...state,
+           subscribed: false
+         });
+       })
+       .catch(error => {
+         console.log(error)
+       })
+    }
+  }
+
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/ideas/${id}`, {
       params: {
@@ -85,13 +119,14 @@ export default function CreateIdea() {
       }
     })
      .then(res => {
-       let data = res.data
+       let data = res.data["idea"]
        setState({
          creator: data["creator"],
          title: data["title"],
          problem: data["problem"],
          field: data["field"],
          region: data["region"],
+         subscribed: res.data["subbed"]
        });
      })
      .catch(error => {
@@ -179,7 +214,7 @@ export default function CreateIdea() {
               </div>
             ) : (
             <div className={classes.button_block}>
-              <div id="comments">
+              <div>
                 <Table bordered hover>
                   <thead>
                     <tr>
@@ -208,16 +243,29 @@ export default function CreateIdea() {
                   autoFocus
                   onChange={handleChange}
                 />
-                <Button
-                  fullWidth
-                  variant="contained"
-                  color="secondary"
-                  className={classes.comment_btn}
-                  onClick={(e) => {
-                  handleComment(e)
-                  }}>
-                  Comment
-                </Button>
+                <div className={classes.button_block}>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="secondary"
+                    className={classes.button}
+                    onClick={(e) => {
+                    handleComment(e)
+                    }}>
+                    Comment
+                  </Button>
+                  <Button
+                    id="subscribe"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    onClick={(e) => {
+                    handleSubscribtion(e)
+                    }}>
+                    {state.subscribed ? 'unsubscribe' : 'subscribe'}
+                  </Button>
+                </div>
               </div>
             </div>
             )

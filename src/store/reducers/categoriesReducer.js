@@ -7,7 +7,8 @@ const initState = {
   problem: true,
   region: true,
   field: true,
-  rating: true
+  rating: true,
+  views: true
 }
 
 export const categoriesReducer = (state = initState, action) => {

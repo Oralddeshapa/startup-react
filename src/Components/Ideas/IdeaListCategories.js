@@ -26,6 +26,8 @@ export default function IdeaListCategories() {
       onClick={() => {dispatch({ type: 'SWAP_STATE', payload: 'field' })}}>Field</button>
       <button type="button" class="btn btn-secondary"
       onClick={() => {dispatch({ type: 'SWAP_STATE', payload: 'rating' })}}>Rating</button>
+      <button type="button" class="btn btn-secondary"
+      onClick={() => {dispatch({ type: 'SWAP_STATE', payload: 'views' })}}>Views</button>
     </div>
   );
 }
