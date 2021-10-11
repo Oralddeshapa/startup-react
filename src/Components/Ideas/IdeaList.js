@@ -90,7 +90,7 @@ export default function IdeaList() {
                 { categories.problem ? <td>{ idea.problem }</td> : null }
                 { categories.region ? <td>{ idea.region }</td> : null }
                 { categories.field ? <td>{ idea.field }</td> : null }
-                { categories.rating ? <Rating name="simple-controlled" value={ idea.rating }/> : null }
+                { categories.rating ? <Rating name="disabled" disabled value={ idea.rating }/> : null }
                 { categories.views ? (
                     localStorage.getItem('role') === 'creator' ? (
                     <td>
