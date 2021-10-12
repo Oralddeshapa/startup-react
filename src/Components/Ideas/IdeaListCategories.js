@@ -11,7 +11,6 @@ export default function IdeaListCategories() {
   };
 
   function storage(name) {
-    console.log(localStorage.getItem(name) === "true")
     return (localStorage.getItem(name) === "true")
   }
 
@@ -26,12 +25,12 @@ export default function IdeaListCategories() {
       </ToggleButton>
       <ToggleButton value="author" aria-label="bold"
       onClick={() => {dispatch({ type: 'SWAP_STATE', payload: 'author' })}}
-      selected={ storage('id') ? true : false}>
+      selected={ storage('author') ? true : false}>
         Author
       </ToggleButton>
       <ToggleButton value="title" aria-label="bold"
       onClick={() => {dispatch({ type: 'SWAP_STATE', payload: 'title' })}}
-      selected={ storage('id') ? true : false}>
+      selected={ storage('title') ? true : false}>
         Title
       </ToggleButton>
       <ToggleButton value="problem" aria-label="bold"
@@ -41,22 +40,22 @@ export default function IdeaListCategories() {
       </ToggleButton>
       <ToggleButton value="region" aria-label="bold"
       onClick={() => {dispatch({ type: 'SWAP_STATE', payload: 'region' })}}
-      selected={ storage('id') ? true : false}>
+      selected={ storage('region') ? true : false}>
         Region
       </ToggleButton>
       <ToggleButton value="field" aria-label="bold"
       onClick={() => {dispatch({ type: 'SWAP_STATE', payload: 'field' })}}
-      selected={ storage('id') ? true : false}>
+      selected={ storage('field') ? true : false}>
         Field
       </ToggleButton>
       <ToggleButton value="rating" aria-label="bold"
       onClick={() => {dispatch({ type: 'SWAP_STATE', payload: 'rating' })}}
-      selected={ storage('id') ? true : false}>
+      selected={ storage('rating') ? true : false}>
         Rating
       </ToggleButton>
       <ToggleButton value="views" aria-label="bold"
       onClick={() => {dispatch({ type: 'SWAP_STATE', payload: 'views' })}}
-      selected={ storage('id') ? true : false}>
+      selected={ storage('views') ? true : false}>
         Views
       </ToggleButton>
     </ToggleButtonGroup>
