@@ -96,7 +96,7 @@ function SignUp() {
         })
       })
       .catch(error => {
-        console.log("Error" + error)
+        alert(error.response.data.error)
       })
     }
     else {

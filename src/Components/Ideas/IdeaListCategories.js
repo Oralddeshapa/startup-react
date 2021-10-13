@@ -35,7 +35,7 @@ export default function IdeaListCategories() {
       </ToggleButton>
       <ToggleButton value="problem" aria-label="bold"
       onClick={() => {dispatch({ type: 'SWAP_STATE', payload: 'problem' })}}
-      selected={ storage('id') ? true : false}>
+      selected={ storage('problem') ? true : false}>
         Problem
       </ToggleButton>
       <ToggleButton value="region" aria-label="bold"

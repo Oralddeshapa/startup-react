@@ -246,7 +246,7 @@ export default function CreateIdea() {
               </div>
             ) : (
             <div className={classes.button_block}>
-              <div>
+              <div style={{ overflow: 'scroll', height: '20vh'}}>
                 <Table bordered hover>
                   <thead>
                     <tr>
