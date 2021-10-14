@@ -11,7 +11,18 @@ export default function IdeaListCategories() {
   };
 
   function storage(name) {
-    return (localStorage.getItem(name) === "true")
+    if (localStorage.getItem(name) === "true") {
+      return true
+    }
+    else if (localStorage.getItem(name) === "false") {
+      return false
+    }
+    else
+      return null
+  }
+
+  function is_active(name) {
+    return ((storage(name) != null) ? storage(name) : true)
   }
 
   const dispatch = useDispatch()
@@ -20,42 +31,42 @@ export default function IdeaListCategories() {
     <ToggleButtonGroup value={formats} onChange={handleFormat} aria-label="text formatting">
       <ToggleButton value="id" aria-label="bold"
       onClick={() => {dispatch({ type: 'SWAP_STATE', payload: 'id' })}}
-      selected={ storage('id') ? true : false}>
+      selected={ is_active('id') }>
         ID
       </ToggleButton>
       <ToggleButton value="author" aria-label="bold"
       onClick={() => {dispatch({ type: 'SWAP_STATE', payload: 'author' })}}
-      selected={ storage('author') ? true : false}>
+      selected={ is_active('author') }>
         Author
       </ToggleButton>
       <ToggleButton value="title" aria-label="bold"
       onClick={() => {dispatch({ type: 'SWAP_STATE', payload: 'title' })}}
-      selected={ storage('title') ? true : false}>
+      selected={ is_active('title') }>
         Title
       </ToggleButton>
       <ToggleButton value="problem" aria-label="bold"
       onClick={() => {dispatch({ type: 'SWAP_STATE', payload: 'problem' })}}
-      selected={ storage('problem') ? true : false}>
+      selected={ is_active('problem') }>
         Problem
       </ToggleButton>
       <ToggleButton value="region" aria-label="bold"
       onClick={() => {dispatch({ type: 'SWAP_STATE', payload: 'region' })}}
-      selected={ storage('region') ? true : false}>
+      selected={ is_active('region') }>
         Region
       </ToggleButton>
       <ToggleButton value="field" aria-label="bold"
       onClick={() => {dispatch({ type: 'SWAP_STATE', payload: 'field' })}}
-      selected={ storage('field') ? true : false}>
+      selected={ is_active('field') }>
         Field
       </ToggleButton>
       <ToggleButton value="rating" aria-label="bold"
       onClick={() => {dispatch({ type: 'SWAP_STATE', payload: 'rating' })}}
-      selected={ storage('rating') ? true : false}>
+      selected={ is_active('rating') }>
         Rating
       </ToggleButton>
       <ToggleButton value="views" aria-label="bold"
       onClick={() => {dispatch({ type: 'SWAP_STATE', payload: 'views' })}}
-      selected={ storage('views') ? true : false}>
+      selected={ is_active('views') }>
         Views
       </ToggleButton>
     </ToggleButtonGroup>
