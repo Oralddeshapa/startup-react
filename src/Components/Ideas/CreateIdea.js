@@ -26,7 +26,7 @@ export default function CreateIdea() {
     region: '',
     id: '',
     redirect_root: false,
-    redirect_back: false,
+    redirect_to_idea: false,
   });
 
   useEffect(() => {
@@ -69,7 +69,7 @@ export default function CreateIdea() {
         console.log(response.data["id"])
         setState({
           ...state,
-          redirect_back: true,
+          redirect_to_idea: true,
           id: response.data["id"],
         });
       })

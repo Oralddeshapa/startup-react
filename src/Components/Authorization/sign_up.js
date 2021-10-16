@@ -12,17 +12,21 @@ import axios from 'axios';
 import { Redirect } from 'react-router'
 import { useHistory } from 'react-router-dom'
 
+import { useDispatch } from 'react-redux'
+
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
-export default function SignUp() {
+function SignUp() {
 
   let history = useHistory();
 
   const classes = useStyles();
+
+  const dispatch = useDispatch()
 
   const [state, setState] = useState({
     name: '',
@@ -79,6 +83,12 @@ export default function SignUp() {
           localStorage.setItem('token', response.data["token"])
           localStorage.setItem('role', response.data["role"])
           localStorage.setItem('username', response.data["username"])
+          dispatch({ type: 'LOGIN',
+                     payload: {
+                      username: response.data["username"],
+                      role: response.data["role"],
+                      token: response.data["token"] }
+                    })
           history.push('/')
         })
         .catch(error => {
@@ -178,3 +188,15 @@ export default function SignUp() {
     </Container>
   );
 }
+
+const mapStateToProps = state => {
+  return {
+    anyName: state.login.name
+  }
+}
+
+const mapDispatchToProps = {
+  //login
+}
+
+export default SignUp

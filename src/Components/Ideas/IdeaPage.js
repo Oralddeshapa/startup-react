@@ -9,6 +9,7 @@ import ReactDOM from 'react-dom';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import { Redirect } from 'react-router'
+import { useSelector, useDispatch } from 'react-redux'
 
 import useStyles from './IdeaPageStyles.js'
 
@@ -16,7 +17,8 @@ export default function CreateIdea() {
 
   const classes = useStyles();
   const { id } = useParams();
-  let comments = []
+  const dispatch = useDispatch()
+  const comments = useSelector((state) => state.comments.comments)
 
   const [state, setState] = useState({
     text: '',
@@ -27,6 +29,7 @@ export default function CreateIdea() {
     region: '',
     redirect_root: false,
     redirect_update: false,
+    subscribed: false,
   });
 
   const handleDelete = (e) => {
@@ -64,16 +67,49 @@ export default function CreateIdea() {
   const handleComment = (e) => {
     axios.post(`${process.env.REACT_APP_API_URL}/comments#create`, {
       text: state.text,
-      id: id,
+      idea_id: id,
       token: localStorage.getItem('token')
     })
      .then(res => {
-       window.location.reload(false);
+       dispatch({type: 'LOAD_COMMENTS', payload: res.data.comments})
      })
      .catch(error => {
        console.log(error)
      })
   };
+
+  const handleSubscribtion = (e) => {
+    if (!state.subscribed) {
+      axios.post(`${process.env.REACT_APP_API_URL}/ideas/${id}/subscribe`, {
+        id: id,
+        token: localStorage.getItem('token')
+      })
+       .then(res => {
+         setState({
+           ...state,
+           subscribed: true
+         });
+       })
+       .catch(error => {
+         console.log(error)
+       })
+    }
+    else {
+      axios.post(`${process.env.REACT_APP_API_URL}/ideas/${id}/unsubscribe`, {
+        idea_id: id,
+        token: localStorage.getItem('token')
+      })
+       .then(res => {
+         setState({
+           ...state,
+           subscribed: false
+         });
+       })
+       .catch(error => {
+         console.log(error)
+       })
+    }
+  }
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/ideas/${id}`, {
@@ -83,13 +119,14 @@ export default function CreateIdea() {
       }
     })
      .then(res => {
-       let data = res.data
+       let data = res.data["idea"]
        setState({
          creator: data["creator"],
          title: data["title"],
          problem: data["problem"],
          field: data["field"],
          region: data["region"],
+         subscribed: res.data["subbed"]
        });
      })
      .catch(error => {
@@ -104,30 +141,11 @@ export default function CreateIdea() {
        axios.get(`${process.env.REACT_APP_API_URL}/comments`,
        { params: {
            token: localStorage.getItem('token'),
-           id: id,
+           idea_id: id,
          }
        })
         .then(res => {
-          comments = res.data
-          const element = (
-            <div id="comments">
-            <Table bordered hover>
-              <thead>
-                <tr>
-                  <th>Comments</th>
-                </tr>
-              </thead>
-              <tbody>
-                { comments.map( comment =>
-                  <tr key={ comment.id }>
-                    <td>{ comment.text }</td>
-                  </tr>
-                ) }
-              </tbody>
-            </Table>
-          </div>
-          )
-          ReactDOM.render(element, document.getElementById('comments'))
+          dispatch({type: 'LOAD_COMMENTS', payload: res.data})
         })
         .catch(error => {
           console.log(error)
@@ -196,7 +214,22 @@ export default function CreateIdea() {
               </div>
             ) : (
             <div className={classes.button_block}>
-              <div id="comments"></div>
+              <div>
+                <Table bordered hover>
+                  <thead>
+                    <tr>
+                      <th>Comments</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    { comments.map( comment =>
+                      <tr key={ comment.id }>
+                        <td>{ comment.text }</td>
+                      </tr>
+                    ) }
+                  </tbody>
+                </Table>
+              </div>
               <div>
                 <TextField
                   variant="filled"
@@ -210,16 +243,29 @@ export default function CreateIdea() {
                   autoFocus
                   onChange={handleChange}
                 />
-                <Button
-                  fullWidth
-                  variant="contained"
-                  color="secondary"
-                  className={classes.comment_btn}
-                  onClick={(e) => {
-                  handleComment(e)
-                  }}>
-                  Comment
-                </Button>
+                <div className={classes.button_block}>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="secondary"
+                    className={classes.button}
+                    onClick={(e) => {
+                    handleComment(e)
+                    }}>
+                    Comment
+                  </Button>
+                  <Button
+                    id="subscribe"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    onClick={(e) => {
+                    handleSubscribtion(e)
+                    }}>
+                    {state.subscribed ? 'unsubscribe' : 'subscribe'}
+                  </Button>
+                </div>
               </div>
             </div>
             )
