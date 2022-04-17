@@ -8,6 +8,7 @@ import { Table } from 'reactstrap';
 import ReactDOM from 'react-dom';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
+import Rating from '@material-ui/lab/Rating';
 import { Redirect } from 'react-router'
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -30,6 +31,7 @@ export default function CreateIdea() {
     redirect_root: false,
     redirect_update: false,
     subscribed: false,
+    rating: '',
   });
 
   const handleDelete = (e) => {
@@ -64,7 +66,28 @@ export default function CreateIdea() {
     });
   };
 
+  const handleRating = (e, newValue) => {
+    axios.post(`${process.env.REACT_APP_API_URL}/ideas/${id}/rate`, {
+      rating: newValue,
+      idea_id: id,
+      token: localStorage.getItem('token')
+    })
+     .then(res => {
+       setState({
+         ...state,
+         rating: newValue,
+       });
+     })
+     .catch(error => {
+       console.log(error)
+     })
+  }
+
   const handleComment = (e) => {
+    setState({
+      ...state,
+      text: ''
+    });
     axios.post(`${process.env.REACT_APP_API_URL}/comments#create`, {
       text: state.text,
       idea_id: id,
@@ -126,7 +149,8 @@ export default function CreateIdea() {
          problem: data["problem"],
          field: data["field"],
          region: data["region"],
-         subscribed: res.data["subbed"]
+         subscribed: res.data["subbed"],
+         rating: data["rating"]
        });
      })
      .catch(error => {
@@ -166,10 +190,10 @@ export default function CreateIdea() {
         </Avatar>
         <Table>
           <tbody>
-          <tr>
-            <th scope="row">Creator</th>
-            <td>{state.creator}</td>
-          </tr>
+            <tr>
+              <th scope="row">Creator</th>
+              <td>{state.creator}</td>
+            </tr>
             <tr>
               <th scope="row">Title</th>
               <td>{state.title}</td>
@@ -185,6 +209,14 @@ export default function CreateIdea() {
             <tr>
               <th scope="row">Region</th>
               <td>{state.region}</td>
+            </tr>
+            <tr>
+              <th score="row">Rating</th>
+              <Rating
+                name="simple-controlled"
+                value={state.rating}
+                onChange={handleRating}
+              />
             </tr>
           </tbody>
         </Table>
@@ -214,7 +246,7 @@ export default function CreateIdea() {
               </div>
             ) : (
             <div className={classes.button_block}>
-              <div>
+              <div style={{ overflow: 'scroll', height: '20vh'}}>
                 <Table bordered hover>
                   <thead>
                     <tr>
@@ -236,6 +268,7 @@ export default function CreateIdea() {
                   margin="normal"
                   required
                   helperText="comment"
+                  value={state.text}
                   inputProps={{
                     name: 'text',
                   }}

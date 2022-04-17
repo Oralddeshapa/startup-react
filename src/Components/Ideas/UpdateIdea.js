@@ -38,7 +38,6 @@ export default function UpdateIdea() {
      .then(res => {
        localStorage.setItem('regions', res.data["regions"])
        localStorage.setItem('fields', res.data["fields"])
-
      })
      .catch(error => {
        console.log(error)
@@ -55,7 +54,7 @@ export default function UpdateIdea() {
        }
      })
      .then(res => {
-       let data = res.data
+       let data = res.data.idea
        setState({
          title: data["title"],
          problem: data["problem"],
